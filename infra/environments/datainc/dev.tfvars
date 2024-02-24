@@ -14,3 +14,7 @@ containers_subnet_address_space = "10.0.0.0/21"
 
 mongodb_subnet_name          = "mongodb"
 mongodb_subnet_address_space = "10.0.8.0/24"
+
+allowed_ips = [
+  "42.80.123.123"
+]

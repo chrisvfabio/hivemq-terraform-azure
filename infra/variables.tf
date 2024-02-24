@@ -39,3 +39,8 @@ variable "mongodb_subnet_name" {
 variable "mongodb_subnet_address_space" {
 
 }
+
+variable "allowed_ips" {
+  type = list(string)
+  description = "List of IP addresses that are allowed to access the resources in the tenant"
+}

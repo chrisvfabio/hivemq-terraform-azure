@@ -4,9 +4,7 @@ locals {
     environment = var.tenant_environment
   }
 
-  allowed_ips = [
-    "38.69.183.243"
-  ]
+  allowed_ips = var.allowed_ips
 }
 
 resource "azurerm_resource_group" "tenant_rg" {
