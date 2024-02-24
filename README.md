@@ -10,6 +10,11 @@ This repo will walk you through how to:
 
 ## 1. Deploying the Infrastructure
 
+Change directory into the `infrastructure` directory.
+
+```bash
+cd infra
+```
 
 Initialize the OpenTofu project.
 
@@ -59,7 +64,7 @@ docker run -d \
 
 `/opt/data/mongo` - The Azure Data Disk is mounted to this directory, which is then mounted to the `/data/db` directory inside the mongo container.
 
-`--auth` - this flag enables authentication for the MongoDB instance.
+`--auth` - this flag enables authentication for the MongoDB instance. Remove this flag to disable auth.
 
 <br>
 
@@ -83,16 +88,25 @@ Exit the mongo container shell and virtual machine.
 ## 3. Deploying the HiveMQ Broker to Azure Container Apps
 
 Log in to the Azure Container Registry to push the image.
+
 ```bash
 az acr login --name dataincdevacr
 ```
 
+Change directory into the `hivemq-broker` directory.
+
+```bash
+cd hivemq-broker
+```
+
 Build the Docker image.
+
 ```bash
 docker build -t dataincdevacr.azurecr.io/hivemq-broker:latest .
 ```
 
 Push the Docker image to the Azure Container Registry.
+
 ```bash
 docker push dataincdevacr.azurecr.io/hivemq-broker:latest
 ```
