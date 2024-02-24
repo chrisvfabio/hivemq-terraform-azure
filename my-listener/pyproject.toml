@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "my-listener"
+version = "0.1.0"
+description = ""
+authors = ["Chris Fabio <chrisvfabio@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+paho-mqtt = "^2.0.0"
+pymongo = "^4.6.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
