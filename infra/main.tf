@@ -149,6 +149,8 @@ module "container_apps" {
   log_analytics_workspace = {
     id = azurerm_log_analytics_workspace.law.id
   }
+
+  depends_on = [ module.container_app_environment ]
 }
 
 
