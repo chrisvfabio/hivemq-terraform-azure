@@ -54,12 +54,7 @@ ssh <username>@<hostname>
 Deploy the mongo:7.0 container.
 
 ```bash
-docker run -d \ 
-    --restart on-failure \ 
-    -p 27017:27017 \ 
-    --name mongodb \ 
-    -v /opt/data/mongo:/data/db \ 
-    mongo:7.0 --auth 
+docker run -d --restart on-failure -p 27017:27017 --name mongodb -v /opt/data/mongo:/data/db mongo:7.0 --auth 
 ```
 
 `/opt/data/mongo` - The Azure Data Disk is mounted to this directory, which is then mounted to the `/data/db` directory inside the mongo container.
