@@ -145,6 +145,50 @@ module "container_apps" {
         }
       ]
     }
+
+    "hivemq-listener-node" = {
+      name          = "hivemq-listener-node"
+      revision_mode = "Single"
+
+      identity = {
+        identity_ids = [module.container_registry.identity_id]
+        type         = "UserAssigned"
+      }
+
+      template = {
+        min_replicas = 1
+        max_replicas = 3
+
+        containers = [
+          {
+            name   = "hivemq-listener-node"
+            image  = "${module.container_registry.server_url}/hivemq-listener-node:latest"
+            cpu    = 0.25
+            memory = "0.5Gi"
+            env = [
+              {
+                name  = "HIVEMQ_BROKER_HOSTNAME"
+                value = "hivemq-broker"
+              },
+              {
+                name  = "HIVEMQ_BROKER_TOPIC"
+                value = "test"
+              },
+              {
+                name  = "MONGO_HOSTNAME"
+                value = "10.0.8.4"
+              }
+            ]
+          }
+        ]
+      }
+      registry = [
+        {
+          server   = module.container_registry.server_url
+          identity = module.container_registry.identity_id
+        }
+      ]
+    }
   }
   log_analytics_workspace = {
     id = azurerm_log_analytics_workspace.law.id
