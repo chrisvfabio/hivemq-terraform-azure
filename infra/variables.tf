@@ -1,4 +1,10 @@
-variable "tenant_id" {
+variable "subscription_id" {
+  description = "The subscription id for the tenant"
+  type        = string
+  default     = "829b2115-589a-47b2-97a0-7c214012d2d8"
+}
+
+variable "tenant_slug" {
   description = "Unique identifier for the tenant"
   type        = string
 }
@@ -41,6 +47,6 @@ variable "mongodb_subnet_address_space" {
 }
 
 variable "allowed_ips" {
-  type = list(string)
+  type        = list(string)
   description = "List of IP addresses that are allowed to access the resources in the tenant"
 }

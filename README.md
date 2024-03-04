@@ -8,6 +8,24 @@ This repo will walk you through how to:
 
 # Steps
 
+## 0. Prepare Infrastructure Variables/Configuration
+
+Located under `./environments/dev.tfvars` are the variables that will be used to deploy the infrastructure. Ensure you have reveiwed and updated the variables to match your desired configuration.
+
+| Variable | Description |
+| --- | --- |
+| `subscription_id` | The Azure Subscription ID |
+| `tenant_slug` | The slug/name of the client/tenant/project |
+| `tenant_environment` | The environment of the tenant (e.g. dev, test, prod) |
+| `tenant_region` | The Azure region to deploy the infrastructure |
+| `tenant_tags` | Tags to apply to the resources |
+| `vnet_address_space` | The CIDR block for the virtual network |
+| `containers_subnet_name` | The name of the subnet for the Azure Container Apps |
+| `containers_subnet_address_space` | The CIDR block for the Azure Container Apps subnet |
+| `mongodb_subnet_name` | The name of the subnet for the Azure VM running MongoDB |
+| `mongodb_subnet_address_space` | The CIDR block for the MongoDB subnet |
+| `allowed_ips` | The IP addresses that are allowed to connect to the MongoDB instance and the Azure Container Apps instance |
+
 ## 1. Deploying the Infrastructure
 
 Change directory into the `infrastructure` directory.

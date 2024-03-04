@@ -1,6 +1,6 @@
 locals {
   global_tags = {
-    tenant      = var.tenant_id
+    tenant      = var.tenant_slug
     environment = var.tenant_environment
   }
 
@@ -8,7 +8,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "tenant_rg" {
-  name     = "rg-${var.tenant_id}-${var.tenant_environment}"
+  name     = "rg-${var.tenant_slug}-${var.tenant_environment}"
   location = var.tenant_region
   tags     = merge(local.global_tags, var.tenant_tags, {})
 }
@@ -20,7 +20,7 @@ module "network" {
   address_spaces          = [var.vnet_address_space]
 
   ## Uncomment!!
-  # vnet_name = "${var.tenant_id}-${var.tenant_environment}-vnet"
+  # vnet_name = "${var.tenant_slug}-${var.tenant_environment}-vnet"
 
   subnet_prefixes = [var.containers_subnet_address_space, var.mongodb_subnet_address_space]
   subnet_names    = [var.containers_subnet_name, var.mongodb_subnet_name]
@@ -40,7 +40,7 @@ module "container_registry" {
   source              = "./modules/container-registry"
   resource_group_name = azurerm_resource_group.tenant_rg.name
   location            = var.tenant_region
-  project_name        = "${var.tenant_id}-${var.tenant_environment}"
+  project_name        = "${var.tenant_slug}-${var.tenant_environment}"
   depends_on          = [module.network, azurerm_resource_group.tenant_rg]
 }
 
@@ -52,7 +52,7 @@ resource "random_password" "mongodb_admin_password" {
 
 module "container_app_environment" {
   source                     = "./modules/container-apps-environment"
-  name                       = "${var.tenant_id}-${var.tenant_environment}"
+  name                       = "${var.tenant_slug}-${var.tenant_environment}"
   location                   = var.tenant_region
   resource_group_name        = azurerm_resource_group.tenant_rg.name
   internal                   = false # Allow 
@@ -72,7 +72,7 @@ module "container_app_environment" {
 # }
 
 resource "azurerm_log_analytics_workspace" "law" {
-  name                = "${var.tenant_id}-${var.tenant_environment}-law"
+  name                = "${var.tenant_slug}-${var.tenant_environment}-law"
   resource_group_name = azurerm_resource_group.tenant_rg.name
   location            = azurerm_resource_group.tenant_rg.location
   retention_in_days   = 30
@@ -201,7 +201,7 @@ module "container_apps" {
 module "key_vault" {
   source = "./modules/key-vault"
 
-  key_vault_name      = "${var.tenant_id}-${var.tenant_environment}"
+  key_vault_name      = "${var.tenant_slug}-${var.tenant_environment}"
   resource_group_name = azurerm_resource_group.tenant_rg.name
   location            = azurerm_resource_group.tenant_rg.location
 
@@ -217,7 +217,7 @@ module "key_vault" {
 module "mongodb" {
   source                = "./modules/vm-docker"
   resource_group_name   = azurerm_resource_group.tenant_rg.name
-  name                  = "${var.tenant_id}-${var.tenant_environment}"
+  name                  = "${var.tenant_slug}-${var.tenant_environment}"
   location              = var.tenant_region
   vm_size               = "Standard_D2s_v3"
   ubuntu_os_version     = "Ubuntu-2204"
